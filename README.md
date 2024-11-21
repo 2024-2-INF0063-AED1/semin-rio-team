@@ -2,8 +2,8 @@
 
 ### Grupo ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ 
 - 202201666 - Rafael Freitas Chicarolli
-- 2022 - Gabriel Soares da Costa
-- 2022 - Caio Adriel
+- 202201624 - Gabriel Soares da Costa
+- 202207107 - Caio Adriel
 
 ### Resumo
 Este relatório apresenta a implementação de um sistema de questionário interativo que utiliza princípios de **backtracking** para permitir a navegação dinâmica entre perguntas e respostas. A solução emprega uma pilha para gerenciar as escolhas do usuário, possibilitando revisitar perguntas anteriores e ajustar respostas antes da avaliação final. Este projeto enfatiza a aplicação prática de estruturas de dados e algoritmos recursivos no contexto de sistemas interativos educacionais.
