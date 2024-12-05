@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura para representar uma resposta
+typedef struct {
+    int pergunta;
+    int resposta;
+} Resposta;
+
+// Estrutura da pilha
+typedef struct Node {
+    Resposta data;
+    struct Node* next;
+} Node;
+
+// Funções para manipular a pilha
+Node* criarNode(int pergunta, int resposta) {
+    Node* novoNode = (Node*)malloc(sizeof(Node));
+    novoNode->data = (Resposta){pergunta, resposta};
+    novoNode->next = NULL;
+    return novoNode;
+}
+
+void empilha(Node** topo, int pergunta, int resposta) {
+    Node* novoNode = criarNode(pergunta, resposta);
+    novoNode->next = *topo;
+    *topo = novoNode;
+}
+
+Resposta desempilha(Node** topo) {
+    if (*topo == NULL) {
+        return (Resposta){-1, -1}; // Indicador de erro
+    }
+    
+    Node* temp = *topo;
+    Resposta resposta = temp->data;
+    *topo = temp->next;
+    free(temp);
+    return resposta;
+}
+
+int pilhaVazia(Node* topo) {
+    return topo == NULL;
+}
+
+// Função para verificar respostas no final
+int conferirRespostas(Node* topo) {
+    int respostasCorretas = 0;
+    int respostasCertas[3] = {2, 1, 3}; // Respostas corretas para perguntas 1, 2 e 3
+
+    while (topo != NULL) {
+        if (topo->data.resposta == respostasCertas[topo->data.pergunta - 1]) {
+            respostasCorretas++;
+        }
+        topo = topo->next;
+    }
+
+    return respostasCorretas;
+}
+
+// Função para exibir a pergunta
+void exibirPergunta(int pergunta) {
+    const char* perguntas[3] = {
+        "Pergunta 1: Quanto e 2 + 2?\n1) 3\n2) 4\n3) 5\n4) 6\n",
+        "Pergunta 2: Quanto e 5 - 3?\n1) 2\n2) 3\n3) 4\n4) 5\n",
+        "Pergunta 3: Quanto e 3 * 3?\n1) 6\n2) 7\n3) 9\n4) 12\n"
+    };
+
+    if (pergunta >= 1 && pergunta <= 3) {
+        printf("%s", perguntas[pergunta - 1]);
+    } else {
+        printf("Pergunta invalida!\n");
+    }
+}
+
+int main() {
+    Node* pilhaRespostas = NULL;
+    int perguntaAtual = 1;
+    int resposta;
+
+    while (perguntaAtual <= 3) {
+        exibirPergunta(perguntaAtual);
+        printf("Digite a sua resposta (1-4) ou 0 para voltar: ");
+        scanf("%d", &resposta);
+
+        if (resposta == 0 && perguntaAtual > 1) {
+            desempilha(&pilhaRespostas);
+            perguntaAtual--;
+            continue;
+        }
+
+        if (resposta < 1 || resposta > 4) {
+            printf("Resposta invalida! Tente novamente.\n");
+            continue;
+        }
+
+        empilha(&pilhaRespostas, perguntaAtual, resposta);
+        perguntaAtual++;
+    }
+
+    // Conferir as respostas após o questionário
+    int corretas = conferirRespostas(pilhaRespostas);
+    printf("Voce acertou %d de 3 perguntas.\n", corretas);
+
+    // Limpeza da pilha ao final
+    while (!pilhaVazia(pilhaRespostas)) {
+        desempilha(&pilhaRespostas);
+    }
+
+    return 0;
+}

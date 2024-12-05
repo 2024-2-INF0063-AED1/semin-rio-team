@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define N 8 // Defina o tamanho do tabuleiro (N x N)
+
+// Função para verificar se é seguro colocar uma rainha em tabuleiro
+bool eSeguro(int tabuleiro[N][N], int linha, int coluna) {
+    // Verificar à esquerda na mesma linha
+    for (int i = 0; i < coluna; i++)
+        if (tabuleiro[linha][i])
+            return false;
+
+    // Verificar a diagonal superior à esquerda
+    for (int i = linha, j = coluna; i >= 0 && j >= 0; i--, j--)
+        if (tabuleiro[i][j])
+            return false;
+
+    // Verificar a diagonal inferior à esquerda
+    for (int i = linha, j = coluna; i < N && j >= 0; i++, j--)
+        if (tabuleiro[i][j])
+            return false;
+
+    return true;
+}
+
+// Função recursiva para resolver o problema das N-Rainhas
+bool resolverNRainhas(int tabuleiro[N][N], int coluna) {
+    // Caso base: Se todas as rainhas forem colocadas
+    if (coluna >= N)
+        return true;
+
+    // Tentar colocar uma rainha em cada linha desta coluna
+    for (int i = 0; i < N; i++) {
+        if (eSeguro(tabuleiro, i, coluna)) {
+            tabuleiro[i][coluna] = 1; // Colocar a rainha
+
+            // Recursivamente colocar rainhas nas próximas colunas
+            if (resolverNRainhas(tabuleiro, coluna + 1))
+                return true;
+
+            tabuleiro[i][coluna] = 0; // Remover a rainha (backtracking)
+        }
+    }
+
+    return false; // Se nenhuma posição nesta coluna funcionar
+}
+
+// Função para imprimir o tabuleiro
+void imprimirTabuleiro(int tabuleiro[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (tabuleiro[i][j])
+                printf(" Q ");
+            else
+                printf(" . ");
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int tabuleiro[N][N] = {0}; // Inicializar o tabuleiro vazio
+
+    if (resolverNRainhas(tabuleiro, 0)) {
+        printf("Solução encontrada:\n");
+        imprimirTabuleiro(tabuleiro);
+    } else {
+        printf("Nenhuma solução encontrada.\n");
+    }
+
+    return 0;
+}
