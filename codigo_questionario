@@ -61,15 +61,15 @@ int conferirRespostas(Node* topo) {
 // Função para exibir a pergunta
 void exibirPergunta(int pergunta) {
     const char* perguntas[3] = {
-        "Pergunta 1: Qual é 2 + 2?\n1) 3\n2) 4\n3) 5\n4) 6\n",
-        "Pergunta 2: Qual é 5 - 3?\n1) 2\n2) 3\n3) 4\n4) 5\n",
-        "Pergunta 3: Qual é 3 * 3?\n1) 6\n2) 7\n3) 9\n4) 12\n"
+        "Pergunta 1: Quanto e 2 + 2?\n1) 3\n2) 4\n3) 5\n4) 6\n",
+        "Pergunta 2: Quanto e 5 - 3?\n1) 2\n2) 3\n3) 4\n4) 5\n",
+        "Pergunta 3: Quanto e 3 * 3?\n1) 6\n2) 7\n3) 9\n4) 12\n"
     };
 
     if (pergunta >= 1 && pergunta <= 3) {
         printf("%s", perguntas[pergunta - 1]);
     } else {
-        printf("Pergunta inválida!\n");
+        printf("Pergunta invalida!\n");
     }
 }
 
@@ -90,7 +90,7 @@ int main() {
         }
 
         if (resposta < 1 || resposta > 4) {
-            printf("Resposta inválida! Tente novamente.\n");
+            printf("Resposta invalida! Tente novamente.\n");
             continue;
         }
 
@@ -100,7 +100,7 @@ int main() {
 
     // Conferir as respostas após o questionário
     int corretas = conferirRespostas(pilhaRespostas);
-    printf("Você acertou %d de 3 perguntas.\n", corretas);
+    printf("Voce acertou %d de 3 perguntas.\n", corretas);
 
     // Limpeza da pilha ao final
     while (!pilhaVazia(pilhaRespostas)) {
